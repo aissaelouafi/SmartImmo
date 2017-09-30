@@ -50,7 +50,7 @@ plotByRegion <- function(){
 }
 
 getAdsList <- function(){
-  solr_data <- merge(getAdsCategory(),region_vector,by="category")
+  #solr_data <- merge(getAdsCategory(),region_vector,by="category")
   solr_data <- subset(solr_data, select=c("id","date","subject","body","name.x","Adresse","region","Superficie","price","url"))
   return(solr_data)
 }
