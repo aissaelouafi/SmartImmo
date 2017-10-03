@@ -30,24 +30,24 @@ ui <- dashboardPage(
               ),
               
               fluidRow(
-                box(title="Offres quotidiennes",plotlyOutput("daily_plot"),width=12, collapsible = TRUE)
+                box(title="Offres quotidiennes",withSpinner(plotlyOutput("daily_plot")),width=12, collapsible = TRUE)
               ),
               
               fluidRow(
-                box(title="Offres par région",plotlyOutput("region_plot"), width=12, collapsible = TRUE)
+                box(title="Offres par région",withSpinner(plotlyOutput("region_plot")), width=12, collapsible = TRUE)
               ),
               
               fluidRow(
-                box(title="Offres par superficie",plotlyOutput("superficie_plot"), width=12, collapsible = TRUE)
+                box(title="Offres par superficie",withSpinner(plotlyOutput("superficie_plot")), width=12, collapsible = TRUE)
               ),
               
               fluidRow(
-                box(title="Offres par prix",plotlyOutput("prix_plot"), width=12, collapsible = TRUE)
+                box(title="Offres par prix",withSpinner(plotlyOutput("prix_plot")), width=12, collapsible = TRUE)
               ),
               
               
               fluidRow(
-                box(title = "Liste des annonces",DT::dataTableOutput('tbl'),width = 12, collapsible = TRUE)
+                box(title = "Liste des annonces",withSpinner(DT::dataTableOutput('tbl')),width = 12, collapsible = TRUE)
               )
       ),
       
