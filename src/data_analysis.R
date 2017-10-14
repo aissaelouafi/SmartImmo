@@ -4,7 +4,7 @@ library(plotly)
 library(httr)
 library(jsonlite)
 
-solr_data <- getDataFromSolr(10000)
+solr_data <- getDataFromSolr(100)
 
 
 features_removed <- c("name","ad_date","phone","url","body","thumb","subject","id","status","X_version_")

@@ -2,6 +2,7 @@
 library(shinydashboard)
 library(plotly)
 library(DT)
+library("shinycssloaders", lib.loc="/Library/Frameworks/R.framework/Versions/3.3/Resources/library")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Smart Immobillier"),
@@ -58,10 +59,18 @@ ui <- dashboardPage(
       
       
       tabItem(tabName = "estimatos",
-              h2("Estimateurs")
+              h2("Estimateurs"),
+              fluidRow(
+                box(title="Estimateur de prix",
+                column(selectInput("ville", "Ville ", 10, 300, 15),width = 12),
+                column(selectInput("region_bien", "Region ", 10, 300, 15),width = 12),
+                column(selectInput("ville_bien", "Zone ", 10, 300, 15),width = 12),
+                column(selectInput("adresse_bien", "Adresse ", 10, 300, 15),width = 12),
+                column(selectInput("ville_superficie", "Superficie ", 10, 300, 15),width = 12),
+                column(selectInput("nb_pieces", "Nombre de pieces ", 10, 300, 15),width = 12),
+                column(actionButton("price_estimator","Estimer"),width = 12),width=12)
+              )
       )
-      
-      
     )
   )
 )
