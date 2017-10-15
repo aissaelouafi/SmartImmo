@@ -71,6 +71,19 @@ getPriceBySuperficie <- function(){
   return(p)
 }
 
+
+getSecteur <- function(){
+  url <- "http://www.avito.ma/templates/api/confregions.js?v=3"
+  secteurs <- GET(url = url)
+  secteurs <- content(secteurs,"text")
+  secteurs <- as.data.frame(fromJSON(secteurs))
+  secteurs <- t(secteurs)
+  secteurs <- subset(secteurs, select=c("id","name"))
+  rownames(secteurs) <- NULL
+  return(secteurs)
+}
+
+
 getPriceByRegion <- function(){
   price_by_region <- subset(solr_data,select=c("category","region","Superficie","price"))
   price_by_region$Superficie <- gsub('m²','',as.character(price_by_region$Superficie))
