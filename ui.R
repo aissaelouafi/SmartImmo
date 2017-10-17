@@ -24,7 +24,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(title="Filtres", width=12,column(selectInput("type_de_bien_filter", "Type du bien :", choices = c(""),multiple=TRUE,selected="",width = NULL),width=2),
                     column(selectInput("ville_filter","Ville :",choices = c(""),width = NULL,multiple = TRUE, selected = ""),width=2),
-                    column(selectInput("region_filter","Region :",choices = c("Agadir","Marrakech"),width = NULL,multiple = TRUE, selected = "Agadir"),width=2),
+                    column(selectInput("region_filter","Region :",choices = "",width = NULL,multiple = TRUE, selected = "Agadir"),width=2),
                     
                     column(sliderInput("slider", "Prix (10k Dhs): ", 10, 300, 15),width = 3),
                     column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 3),collapsible = TRUE)
@@ -36,6 +36,10 @@ ui <- dashboardPage(
               
               fluidRow(
                 box(title="Offres par région",withSpinner(plotlyOutput("region_plot")), width=12, collapsible = TRUE)
+              ),
+              
+              fluidRow(
+                box(title = "Offres par secteur", withSpinner(plotlyOutput("secteur_plot")), width = 12, collapsible = TRUE)
               ),
               
               fluidRow(
@@ -54,7 +58,10 @@ ui <- dashboardPage(
       
       
       tabItem(tabName = "map",
-              h2("Carte")
+              h2("Carte"),
+              fluidRow(
+                box(title = "Carte des annonces",withSpinner(plotlyOutput('map')),width = 12, collapsible = TRUE)
+              )
       ),
       
       

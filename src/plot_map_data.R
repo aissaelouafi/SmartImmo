@@ -7,7 +7,10 @@ library(jsonlite)
 
 options(scipen=999)
 
-geocodeAdddress <- function(address) {
+
+secteurs_id <- getSecteur()
+
+geocodeAddress <- function(address) {
   url <- "http://maps.google.com/maps/api/geocode/json?address="
   url <- URLencode(paste(url, address, "&sensor=false", sep = ""))
   x <- fromJSON(url, simplify = FALSE)
@@ -19,4 +22,22 @@ geocodeAdddress <- function(address) {
   }
   Sys.sleep(0.2)  # API only allows 5 requests per second
   out
+}
+
+
+
+library(ggplot2)
+library(ggmap)
+library(maps)
+library(mapdata)
+
+usa <- map_data("usa")
+states <- map_data("state")
+
+getMap <- function(){
+p <- ggplot(data = states) + 
+  geom_polygon(aes(x = long, y = lat, fill = region, group = group), color = "white") + 
+  coord_fixed(1.3) +
+  guides(fill=FALSE)
+  return(ggplotly(p))
 }

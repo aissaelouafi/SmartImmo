@@ -15,6 +15,13 @@ shinyServer(function(input, output,session) {
     plotDailyData()
   })
   
+  updateSelectInput(session,"region_filter",choices = unique(solr_data$region))
+  
+  output$secteur_plot <- renderPlotly({
+    plotBySecteur(input$region_filter)
+  })
+  
+  
   output$region_plot <- renderPlotly({
     plotByRegion()
   })
@@ -26,9 +33,22 @@ shinyServer(function(input, output,session) {
     getPriceByRegion()
   })
   
+  output$map <- renderPlotly({
+    getMap()
+  })
+  
   output$tbl <- DT::renderDataTable(filter = "top",{
     getAdsList()
   }, options = list(lengthChange = FALSE, pageLength = 200))
+  
+  
+  observeEvent(input$region_filter, {
+    region <- input$region_filter
+    output$secteur_plot <- renderPlotly({
+      plotBySecteur(region)
+    })
+  }, ignoreInit = TRUE)
+  
   
   
   updateSelectInput(session,"ville_filter",choices = unique(solr_data$region), selected =unique(solr_data$region)[1] )

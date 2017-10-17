@@ -1,18 +1,16 @@
 library(solr)
 library(ggplot2)
+library(plyr)
 library(plotly)
+library(dplyr)
 library(httr)
 library(jsonlite)
 
 options(scipen=999)
 
-solr_data <- getDataFromSolr(15000)
 
-getDataFromSolr <- function(limit){
-  url <- 'http://localhost:8983/solr/smartimmo/select'
-  out <-solr_search(q='*:*', rows=limit, base=url)
-  return(out)
-}
+load("./solr_data.rda")
+
 
 plotDailyData <- function(){
   date_vector <- as.data.frame(as.Date(solr_data$date))
@@ -33,6 +31,17 @@ getAdsCategory <- function(){
   colnames(category) <- c("category","level","parent","name","type")
   category <- subset(category, select=c("category","name"))
   return(category)
+}
+
+plotBySecteur <- function(city){
+  solr_data_vectors <- subset(solr_data, select=c("city","region","id"))
+  counts <- ddply(solr_data_vectors, .(solr_data_vectors$city, solr_data_vectors$region), nrow)
+  counts <- as.data.frame(counts)
+  colnames(counts) <- c("city","region","freq")
+  counts <- counts[counts$region == city,]
+  p <- ggplot(data=counts, aes(x=city, y=freq,fill=city)) +geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  p <- ggplotly(p)
+  return(p)
 }
 
 plotByRegion <- function(){
@@ -77,9 +86,9 @@ getSecteur <- function(){
   secteurs <- GET(url = url)
   secteurs <- content(secteurs,"text")
   secteurs <- as.data.frame(fromJSON(secteurs))
-  secteurs <- t(secteurs)
-  secteurs <- subset(secteurs, select=c("id","name"))
-  rownames(secteurs) <- NULL
+  secteurs <- subset(secteurs, select=c("regions.id","regions.name"))
+  colnames(secteurs) <- c("Secteur","secteur_name")
+  secteurs$Secteur <- as.integer(as.character(secteurs$Secteur))
   return(secteurs)
 }
 
@@ -100,3 +109,4 @@ getPriceByRegion <- function(){
   p <- ggplotly(p)
   return(p)
 }
+
