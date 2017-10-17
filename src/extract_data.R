@@ -1,6 +1,5 @@
 library(solr)
 library(ggplot2)
-library(plyr)
 library(plotly)
 library(dplyr)
 library(httr)
@@ -35,7 +34,7 @@ getAdsCategory <- function(){
 
 plotBySecteur <- function(city){
   solr_data_vectors <- subset(solr_data, select=c("city","region","id"))
-  counts <- ddply(solr_data_vectors, .(solr_data_vectors$city, solr_data_vectors$region), nrow)
+  counts <- plyr::ddply(solr_data_vectors, .(solr_data_vectors$city, solr_data_vectors$region), nrow)
   counts <- as.data.frame(counts)
   colnames(counts) <- c("city","region","freq")
   counts <- counts[counts$region == city,]
@@ -56,6 +55,21 @@ plotByRegion <- function(){
   p <- ggplotly(p)
   return(p)
 }
+
+plotBySecteurCategory  <- function(city){
+  region_vector_count  <- subset(solr_data, select=c("region", "category","city"))
+  region_vector_count <- merge(getAdsCategory(),region_vector_count,by="category")
+  region_vector_count <- region_vector_count[region_vector_count$region == city,]
+  counts <- plyr::ddply(region_vector_count, .(region_vector_count$city, region_vector_count$name), nrow)
+  counts <- as.data.frame(counts)
+  colnames(counts) <- c("city","category","freq")
+  p <- ggplot(data=counts, aes(x=city, y=freq,fill=category)) +geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  p <- ggplotly(p)
+  return(p)
+}
+
+
+
 
 getAdsList <- function(){
   #solr_data <- merge(getAdsCategory(),region_vector,by="category")

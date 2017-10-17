@@ -47,6 +47,11 @@ shinyServer(function(input, output,session) {
     output$secteur_plot <- renderPlotly({
       plotBySecteur(region)
     })
+    
+    
+    output$region_plot <- renderPlotly({
+      plotBySecteurCategory(region)
+    })
   }, ignoreInit = TRUE)
   
   
