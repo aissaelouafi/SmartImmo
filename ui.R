@@ -2,6 +2,7 @@
 library(shinydashboard)
 library(plotly)
 library(DT)
+library(sunburstR)
 library("shinycssloaders", lib.loc="/Library/Frameworks/R.framework/Versions/3.3/Resources/library")
 
 ui <- dashboardPage(
@@ -30,12 +31,11 @@ ui <- dashboardPage(
                     column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 3),collapsible = TRUE)
               ),
               fluidRow(
-                box(title="Offres quotidiennes",withSpinner(sunburstOutput("sunburst_plot")),width=12, collapsible = TRUE)
+                box(title="Offres quotidiennes",withSpinner(sunburstOutput("sunburst_plot")),width=5, collapsible = TRUE),
+                box(title="Offres quotidiennes",withSpinner(plotlyOutput("daily_plot")),width=7, collapsible = TRUE)
+                
               ),            
-              fluidRow(
-                box(title="Offres quotidiennes",withSpinner(plotlyOutput("daily_plot")),width=12, collapsible = TRUE)
-              ),
-              
+
               fluidRow(
                 box(title="Offres par région",withSpinner(plotlyOutput("region_plot")), width=12, collapsible = TRUE)
               ),

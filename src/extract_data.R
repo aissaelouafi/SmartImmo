@@ -1,11 +1,10 @@
 library(solr)
 library(ggplot2)
 library(plotly)
-library(dplyr)
 library(httr)
 library(jsonlite)
 library(sunburstR)
-
+library(plyr)
 options(scipen=999)
 
 
@@ -44,6 +43,7 @@ plotBySecteur <- function(city){
   return(p)
 }
 
+
 plotByRegion <- function(){
   region_vector  <- subset(solr_data, select=c("region", "category"))
   region_vector <- merge(getAdsCategory(),region_vector,by="category")
@@ -56,6 +56,8 @@ plotByRegion <- function(){
   p <- ggplotly(p)
   return(p)
 }
+library(dplyr)
+
 
 plotBySecteurCategory  <- function(city){
   region_vector_count  <- subset(solr_data, select=c("region", "category","city"))
