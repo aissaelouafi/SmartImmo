@@ -29,7 +29,9 @@ ui <- dashboardPage(
                     column(sliderInput("slider", "Prix (10k Dhs): ", 10, 300, 15),width = 3),
                     column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 3),collapsible = TRUE)
               ),
-              
+              fluidRow(
+                box(title="Offres quotidiennes",withSpinner(sunburstOutput("sunburst_plot")),width=12, collapsible = TRUE)
+              ),            
               fluidRow(
                 box(title="Offres quotidiennes",withSpinner(plotlyOutput("daily_plot")),width=12, collapsible = TRUE)
               ),

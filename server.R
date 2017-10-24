@@ -21,6 +21,9 @@ shinyServer(function(input, output,session) {
     plotBySecteur(input$region_filter)
   })
   
+  output$sunburst_plot <- renderSunburst({
+    getSunburst()
+  })
   
   output$region_plot <- renderPlotly({
     plotByRegion()

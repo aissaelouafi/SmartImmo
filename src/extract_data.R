@@ -4,6 +4,7 @@ library(plotly)
 library(dplyr)
 library(httr)
 library(jsonlite)
+library(sunburstR)
 
 options(scipen=999)
 
@@ -124,3 +125,11 @@ getPriceByRegion <- function(){
   return(p)
 }
 
+getSunburst <- function(){
+  solr_data <- solr_data[1:10000,]
+  solr_data <- merge(getAdsCategory(),solr_data,by="category")
+  data <- paste0(solr_data$region,"-",solr_data$name.x,"-",solr_data$city,"-",solr_data$Superficie)
+  data <- as.data.frame(data)
+  data <- as.data.frame(table(data))
+  return(sunburst(data,percent = TRUE,count = TRUE))
+}
