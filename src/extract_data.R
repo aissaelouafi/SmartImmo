@@ -80,7 +80,10 @@ getAdsList <- function(){
   return(solr_data)
 }
 
-getPriceBySuperficie <- function(){
+getPriceBySuperficie <- function(region = NULL){
+  if(is.null(region) == FALSE){
+    solr_data <- solr_data[solr_data$region == region,]
+  }
   price_by_region <- subset(solr_data,select=c("category","region","Superficie","price"))
   price_by_region$Superficie <- gsub('m²','',as.character(price_by_region$Superficie))
   price_by_region$price <- gsub('\\.','',price_by_region$price)
@@ -127,10 +130,12 @@ getPriceByRegion <- function(){
   return(p)
 }
 
-getSunburst <- function(){
-  solr_data <- solr_data[1:10000,]
+getSunburst <- function(region = NULL){
+  if(is.null(region) == FALSE){
+    solr_data <- solr_data[solr_data$region == region,]
+  }
   solr_data <- merge(getAdsCategory(),solr_data,by="category")
-  data <- paste0(solr_data$region,"-",solr_data$name.x,"-",solr_data$city,"-",solr_data$Superficie)
+  data <- paste0(solr_data$region,"-",solr_data$name.x,"-",solr_data$city,"-",solr_data$price)
   data <- as.data.frame(data)
   data <- as.data.frame(table(data))
   return(sunburst(data,percent = TRUE,count = TRUE))

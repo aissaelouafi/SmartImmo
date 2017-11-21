@@ -46,6 +46,7 @@ shinyServer(function(input, output,session) {
   
   
   observeEvent(input$region_filter, {
+    print(input$region_filter)
     region <- input$region_filter
     output$secteur_plot <- renderPlotly({
       plotBySecteur(region)
@@ -55,6 +56,15 @@ shinyServer(function(input, output,session) {
     output$region_plot <- renderPlotly({
       plotBySecteurCategory(region)
     })
+    
+    output$sunburst_plot <- renderSunburst({
+      getSunburst(input$region_filter)
+    })
+    
+    output$superficie_plot <- renderPlotly({
+      getPriceBySuperficie(input$region_filter)
+    })
+    
   }, ignoreInit = TRUE)
   
   

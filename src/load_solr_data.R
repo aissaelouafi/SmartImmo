@@ -5,7 +5,7 @@ library(dplyr)
 library(httr)
 library(jsonlite)
 
-solr_data <- getDataFromSolr(35000)
+solr_data <- getDataFromSolr(10000)
 
 getDataFromSolr <- function(limit){
   url <- 'http://localhost:8983/solr/smartimmo/select'
