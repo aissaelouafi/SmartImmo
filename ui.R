@@ -10,6 +10,7 @@ ui <- dashboardPage(
   dashboardSidebar( 
     sidebarMenu(
       menuItem("Tableau de bord", tabName = "dashboard", icon = icon("dashboard")),
+      menuItem("Terrains",tabName = "terrain",icon = icon("dashboard")),
       menuItem("Carte",tabName = "map",icon=icon("map-marker")),
       menuItem("Estimateurs",tabName = "estimatos",icon=icon("eur"))
   )),
@@ -78,7 +79,19 @@ ui <- dashboardPage(
                 column(selectInput("nb_pieces", "Nombre de pieces ", 10, 300, 15),width = 12),
                 column(actionButton("price_estimator","Estimer"),width = 12),width=12)
               )
-      )
+      ),
+      
+      tabItem(tabName = "terrain",
+              h2("Terrains"),
+              fluidRow(
+                box(title="Filtres", width=12,
+                    column(selectInput("region_filter_terrains","Region :",choices = "",width = NULL,multiple = TRUE, selected = "Agadir"),width=4),
+                    column(sliderInput("slider", "Prix (10k Dhs): ", 10, 300, 15),width = 4),
+                    column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 4),collapsible = TRUE)
+              ),
+              fluidRow(
+                box(title="Prix par secteur",width = 12,withSpinner(plotlyOutput("prix_terrain")),collapsible = TRUE)
+              ))
     )
   )
 )

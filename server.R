@@ -44,6 +44,12 @@ shinyServer(function(input, output,session) {
     getAdsList()
   }, options = list(lengthChange = FALSE, pageLength = 200))
   
+  ## Terrains
+  output$prix_terrain <- renderPlotly({
+    prixTerrainByRegion(region = NULL)
+  })
+  
+  
   
   observeEvent(input$region_filter, {
     print(input$region_filter)
@@ -68,8 +74,16 @@ shinyServer(function(input, output,session) {
   }, ignoreInit = TRUE)
   
   
+  ## Terrains
+  observeEvent(input$region_filter_terrains,{
+    output$prix_terrain <- renderPlotly({
+      prixTerrainByRegion(region = input$region_filter_terrains)
+    })
+  })
+  
   
   updateSelectInput(session,"ville_filter",choices = unique(solr_data$region), selected =unique(solr_data$region)[1] )
+  updateSelectInput(session,"region_filter_terrains",choices = unique(solr_data$region), selected =unique(solr_data$region)[1] )
   #updateSelectInput(session,"type_de_bien_filter",choices = unique(region_vector$name.x), selected =unique(region_vector$name.x)[1] )
   
 })

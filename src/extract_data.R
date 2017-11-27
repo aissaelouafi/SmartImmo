@@ -140,3 +140,36 @@ getSunburst <- function(region = NULL){
   data <- as.data.frame(table(data))
   return(sunburst(data,percent = TRUE,count = TRUE))
 }
+
+
+
+# function to produce summary statistics (mean and +/- sd), as required for ggplot2
+data_summary <- function(x) {
+  mu <- mean(x)
+  sigma1 <- mu-sd(x)
+  sigma2 <- mu+sd(x)
+  return(c(y=mu,ymin=sigma1,ymax=sigma2))
+}
+
+prixTerrainByRegion <- function(region){
+  #p <- ggplot(data=solr_data, aes(x=city, y=price, fill=city)) + 
+  #  geom_violin() + stat_summary(fun.data=data_summary)
+  solr_data <- solr_data[solr_data$category == 1080,]
+  solr_data$Superficie <- as.numeric(gsub('m²','',as.character(solr_data$Superficie)))
+  solr_data$price <- as.numeric(gsub('\\.','',solr_data$price))
+  solr_data$price_stat <- solr_data$price/solr_data$Superficie
+  
+  if(is.null(region) == FALSE){
+    solr_data <- solr_data[solr_data$region == region,]
+    solr_data$price <- as.numeric(gsub('\\.','',as.character(solr_data$price)))
+    p <- ggplot(data=solr_data, aes(x=city, y=price_stat, fill=city)) + 
+      geom_crossbar(stat="summary", fun.y=data_summary, fun.ymax=max, fun.ymin=min) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    
+  } else {
+    p <- ggplot(data=solr_data, aes(x=region, y=price_stat, fill=region)) + 
+      geom_crossbar(stat="summary", fun.y=data_summary, fun.ymax=max, fun.ymin=min) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    
+    }
+  p <- ggplotly(p)
+  return(p)
+}
