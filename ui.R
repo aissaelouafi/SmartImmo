@@ -23,9 +23,8 @@ ui <- dashboardPage(
               h2("Tableau de bord"),
               
               fluidRow(
-                box(title="Filtres", width=12,column(selectInput("type_de_bien_filter", "Type du bien :", choices = c(""),multiple=TRUE,selected="",width = NULL),width=2),
-                    column(selectInput("ville_filter","Ville :",choices = c(""),width = NULL,multiple = TRUE, selected = ""),width=2),
-                    column(selectInput("region_filter","Region :",choices = "",width = NULL,multiple = TRUE, selected = "Agadir"),width=2),
+                box(title="Filtres", width=12,column(selectInput("type_de_bien_filter", "Type du bien :", choices = c(""),multiple=TRUE,selected="",width = NULL),width=3),
+                    column(selectInput("region_filter","Region :",choices = "",width = NULL,multiple = TRUE, selected = "Agadir"),width=3),
                     
                     column(sliderInput("slider", "Prix (10k Dhs): ", 10, 300, 15),width = 3),
                     column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 3),collapsible = TRUE)

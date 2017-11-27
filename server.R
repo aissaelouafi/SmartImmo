@@ -70,6 +70,6 @@ shinyServer(function(input, output,session) {
   
   
   updateSelectInput(session,"ville_filter",choices = unique(solr_data$region), selected =unique(solr_data$region)[1] )
-  updateSelectInput(session,"type_de_bien_filter",choices = unique(region_vector$name.x), selected =unique(region_vector$name.x)[1] )
+  #updateSelectInput(session,"type_de_bien_filter",choices = unique(region_vector$name.x), selected =unique(region_vector$name.x)[1] )
   
 })
