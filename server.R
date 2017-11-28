@@ -49,6 +49,17 @@ shinyServer(function(input, output,session) {
     prixTerrainByRegion(region = NULL)
   })
   
+  output$freq_terrain <- renderPlotly({
+    getFreqTerrains(region = NULL)
+  })
+  
+  output$prix_bien <- renderPlotly({
+    getMaisonsPrice(region="Agadir")
+  })
+  
+  
+  ## Observe event 
+  
   
   
   observeEvent(input$region_filter, {
@@ -79,7 +90,13 @@ shinyServer(function(input, output,session) {
     output$prix_terrain <- renderPlotly({
       prixTerrainByRegion(region = input$region_filter_terrains)
     })
+    
+    
+    output$freq_terrain <- renderPlotly({
+      getFreqTerrains(region = input$region_filter_terrains)
+    })
   })
+  
   
   
   updateSelectInput(session,"ville_filter",choices = unique(solr_data$region), selected =unique(solr_data$region)[1] )

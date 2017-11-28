@@ -85,12 +85,18 @@ ui <- dashboardPage(
               h2("Terrains"),
               fluidRow(
                 box(title="Filtres", width=12,
-                    column(selectInput("region_filter_terrains","Region :",choices = "",width = NULL,multiple = TRUE, selected = "Agadir"),width=4),
+                    column(selectInput("region_filter_terrains","Region :",choices = "",width = NULL,multiple = TRUE, selected = ""),width=4),
                     column(sliderInput("slider", "Prix (10k Dhs): ", 10, 300, 15),width = 4),
                     column(sliderInput("slider", "Superficie (m²):", 50, 500, 50),width = 4),collapsible = TRUE)
               ),
               fluidRow(
-                box(title="Prix par secteur",width = 12,withSpinner(plotlyOutput("prix_terrain")),collapsible = TRUE)
+                box(title="Prix des terrains par secteur",width = 12,withSpinner(plotlyOutput("prix_terrain")),collapsible = TRUE)
+              ),
+              fluidRow(
+                box(title="Prix des biens par secteur",width = 12,withSpinner(plotlyOutput("prix_bien")),collapsible = TRUE)
+              ),
+              fluidRow(
+                box(title="Terrais par secteur",width = 12,withSpinner(plotlyOutput("freq_terrain")),collapsible = TRUE)
               ))
     )
   )
