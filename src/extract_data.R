@@ -162,12 +162,13 @@ prixTerrainByRegion <- function(region){
   if(is.null(region) == FALSE){
     solr_data <- solr_data[solr_data$region == region,]
     solr_data$price <- as.numeric(gsub('\\.','',as.character(solr_data$price)))
-    p <- ggplot(data=solr_data, aes(x=city, y=price_stat, fill=city)) + 
-      geom_crossbar(stat="summary", fun.y=data_summary, fun.ymax=max, fun.ymin=min) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
+    p <- ggplot(solr_data, aes(city, price_stat, fill = city)) + geom_boxplot(size = 0.2) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
+    
+
   } else {
-    p <- ggplot(data=solr_data, aes(x=region, y=price_stat, fill=region)) + 
-      geom_crossbar(stat="summary", fun.y=data_summary, fun.ymax=max, fun.ymin=min) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
-    }
+     p <- ggplot(solr_data, aes(region, price_stat, fill = region)) + geom_boxplot(size = 0.2) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
+    
+  }
   p <- ggplotly(p)
   return(p)
 }
@@ -195,7 +196,7 @@ getMaisonsPrice <- function(region){
   maison_prix$Superficie <- as.numeric(gsub('m²','',as.character(maison_prix$Superficie)))
   maison_prix$price <- as.numeric(gsub('\\.','',maison_prix$price))
   maison_prix$price_stat <- maison_prix$price/maison_prix$Superficie
-  p <- ggplot(maison_prix, aes(city, price_stat, fill = city)) + geom_boxplot(size = 0.5) + ggtitle("Adjust line width of boxplot in ggplot2") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
+  p <- ggplot(maison_prix, aes(city, price_stat, fill = city)) + geom_boxplot(size = 0.2) + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Prix par m2 (Dhs)")+xlab("Secteur")
   p <- ggplotly(p)
   return(p)
 }

@@ -95,6 +95,11 @@ shinyServer(function(input, output,session) {
     output$freq_terrain <- renderPlotly({
       getFreqTerrains(region = input$region_filter_terrains)
     })
+    
+    output$prix_bien <- renderPlotly({
+      getMaisonsPrice(region=input$region_filter_terrains)
+    })
+    
   })
   
   
