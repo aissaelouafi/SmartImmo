@@ -54,9 +54,20 @@ shinyServer(function(input, output,session) {
   })
   
   output$prix_bien <- renderPlotly({
-    getMaisonsPrice(region="Agadir")
+    getMaisonsPrice(NULL,region="Agadir")
   })
   
+  output$prix_appartements <- renderPlotly({
+    getMaisonsPrice(1010,region = "Agadir")
+  })
+  
+  output$prix_maisons_villas <- renderPlotly({
+    getMaisonsPrice(1020,region = "Agadir")
+  })
+  
+  output$prix_magasins <- renderPlotly({
+    getMaisonsPrice(1060,region = "Agadir")
+  })
   
   ## Observe event 
   
@@ -74,6 +85,7 @@ shinyServer(function(input, output,session) {
       plotBySecteurCategory(region)
     })
     
+    
     output$sunburst_plot <- renderSunburst({
       getSunburst(input$region_filter)
     })
@@ -81,6 +93,8 @@ shinyServer(function(input, output,session) {
     output$superficie_plot <- renderPlotly({
       getPriceBySuperficie(input$region_filter)
     })
+    
+    
     
   }, ignoreInit = TRUE)
   
@@ -91,13 +105,24 @@ shinyServer(function(input, output,session) {
       prixTerrainByRegion(region = input$region_filter_terrains)
     })
     
+    output$prix_appartements <- renderPlotly({
+      getMaisonsPrice(1010,region = input$region_filter_terrains)
+    })
+    
+    output$prix_maisons_villas <- renderPlotly({
+      getMaisonsPrice(1020,region = input$region_filter_terrains)
+    })
+    
+    output$prix_magasins <- renderPlotly({
+      getMaisonsPrice(1060,region = input$region_filter_terrains)
+    })
     
     output$freq_terrain <- renderPlotly({
       getFreqTerrains(region = input$region_filter_terrains)
     })
     
     output$prix_bien <- renderPlotly({
-      getMaisonsPrice(region=input$region_filter_terrains)
+      getMaisonsPrice(NULL,region=input$region_filter_terrains)
     })
     
   })

@@ -10,6 +10,6 @@ getDataFromSolr <- function(limit){
   out <-solr_search(q='*:*',fl=c('id','subject','category','city','thumb','Adresse','Superficie','type','body','price','Secteur','date','url','region','Prix_Total','Nombre_de_pieces'), rows=limit, base=url)
   return(out)
 }
-solr_data <- getDataFromSolr(5000)
+solr_data <- getDataFromSolr(150000)
 
 save(solr_data, file="solr_data.rda")
