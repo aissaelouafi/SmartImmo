@@ -93,7 +93,7 @@ ui <- dashboardPage(
                 box(title="Prix des terrains par secteur",width = 12,withSpinner(plotlyOutput("prix_terrain")),collapsible = TRUE)
               ),
               fluidRow(
-                box(title="Prix des biens immopbiliers par secteur",width = 12,withSpinner(plotlyOutput("prix_bien")),collapsible = TRUE)
+                box(title="Prix des biens immobiliers par secteur",width = 12,withSpinner(plotlyOutput("prix_bien")),collapsible = TRUE)
               ),
               fluidRow(
                 box(title="Prix des Appartements par secteur",width = 12,withSpinner(plotlyOutput("prix_appartements")),collapsible = TRUE)

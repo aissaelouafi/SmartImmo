@@ -174,17 +174,19 @@ prixTerrainByRegion <- function(region){
 }
 
 getFreqTerrains <- function(region){
-  solr_data <- solr_data[solr_data$category == 1080,]
+  #solr_data <- solr_data[solr_data$category == 1080,]
+  categories <- getAdsCategory()
+  
   if(is.null(region) == FALSE){
     solr_data <- solr_data[solr_data$region == region,]
-    counts <- plyr::ddply(solr_data, .(solr_data$city, solr_data$region), nrow)
-    colnames(counts) <- c("city","region","freq")
-    p <- ggplot(data=counts, aes(x=city, y=freq,fill=city)) +geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Fréquence")+xlab("Secteur")
+    counts <- plyr::ddply(solr_data, .(solr_data$city, solr_data$region, solr_data$category), nrow)
+    colnames(counts) <- c("city","region","category","freq")
+    p <- ggplot(data=counts, aes(x=city, y=freq,fill=as.character(category))) +geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Fréquence")+xlab("Secteur")
     
   } else {
     counts <- plyr::ddply(solr_data, .(solr_data$region), nrow)
     colnames(counts) <- c("region","freq")
-    p <- ggplot(data=counts, aes(x=region, y=freq,fill=region)) +geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Fréquence")+xlab("Secteur")
+    p <- ggplot(data=counts, aes(x=region, y=freq)) +geom_bar(aes(fill=as.character(category)),width = 0.4, position = position_dodge(width=0.5),stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab("Fréquence")+xlab("Secteur")
   }
   p <- ggplotly(p)
   return(p)
